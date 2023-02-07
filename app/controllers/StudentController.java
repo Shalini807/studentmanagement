@@ -102,57 +102,36 @@ public class StudentController extends Controller {
             }
         }
     }
-//    public Result addStudent(Http.Request request){
-//        Form<Student> form = formFactory.form(Student.class).bindFromRequest(request);
-//        return ok(studentService.
-//        addStudent(form.get()).toString());
-//    }
+    public Result updateStudent(Http.Request request) {
+        JsonNode json = request.body().asJson();
+        int id = json.get("id").asInt();
+        String name = json.get("name").asText();
+        String email = json.get("email").asText();
+        String address = json.get("address").asText();
+        Connection conn = null;
+        try {
+            conn = db.getConnection();
+            String sql = "UPDATE student SET name=?, email=?, address=? WHERE id=?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, name);
+            stmt.setString(2, email);
+            stmt.setString(3, address);
+            stmt.setInt(4, id);
+            stmt.executeUpdate();
+            return ok("Data updated successfully");
+        } catch (SQLException e) {
+            return internalServerError("Error updating data: " + e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
 
-    //    @Autowired
-//    private StudentRepository studentRepository;
+            }
+        }
+    }
 
 
-//    @Inject
-//    private RestHighLevelClient client = new RestHighLevelClient(
-//        RestClient.builder(
-//                new HttpHost("localhost", 9200, "http")
-//        )
-//    );
 
-
-//    @PostMapping
-//    public Result create(Http.Request request) {
-//        JsonNode json = request.body().asJson();
-//        Student student = Json.fromJson(json, Student.class);
-//        studentRepository.save(student);
-//        return ok(Json.toJson(student));
-//    }
-//
-//    @GetMapping
-//    public Result get(Long id){
-//        Student student = studentRepository.findById(id).orElse(null);
-//        if (student == null) {
-//            return notFound();
-//        }
-//        return ok(Json.toJson(student));
-//    }
-//
-//    @PutMapping
-//    public Result update(Long id, Http.Request request){
-//        Student student = studentRepository.findById(id).orElse(null);
-//        if (student == null){
-//            return notFound();
-//        }
-//        JsonNode json = request.body().asJson();
-//        student = Json.fromJson(json, Student.class);
-//        student.setId(id);
-//        studentRepository.save(student);
-//        return ok(Json.toJson(student));
-//    }
-//
-//    @DeleteMapping
-//    public Result delete(Long id){
-//        studentRepository.deleteById(id);
-//        return noContent();
-//    }
 }

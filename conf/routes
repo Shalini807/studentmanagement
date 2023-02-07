@@ -13,3 +13,4 @@ GET     /getStudent                controllers.StudentController.getStudent()
 GET     /getStudentById/:id        controllers.StudentController.getStudentById(id: Int)
 
 POST   /addStudent                    controllers.StudentController.addStudent(request : Request)
+PUT    /updateStudent             controllers.StudentController.updateStudent(request : Request)
