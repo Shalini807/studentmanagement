@@ -9,14 +9,7 @@ GET     /                           controllers.HomeController.index()
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 
-#GET     /student           controllers.StudentController.list()
-#POST    /student           controllers.StudentController.create()
-#GET     /student/:id       controllers.StudentController.get(id: Long)
-
-#POST   /addStudent                controllers.StudentController.addStudent(request: Request)
-#GET    /connection                controllers.StudentController.connection()
 GET     /getStudent                controllers.StudentController.getStudent()
 GET     /getStudentById/:id        controllers.StudentController.getStudentById(id: Int)
-#POST    /addStudent                controllers.StudentController.addStudent(body: JsonNode)
 
 POST   /addStudent                    controllers.StudentController.addStudent(request : Request)
