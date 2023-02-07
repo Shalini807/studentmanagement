@@ -9,19 +9,19 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import service.StudentService;
+//import service.StudentService;
 
 import javax.inject.Inject;
 import java.sql.*;
 
 public class StudentController extends Controller {
-    private StudentService studentService;
+//    private StudentService studentService;
     private FormFactory formFactory;
-    @Inject
-    public StudentController(StudentService studentService, FormFactory formFactory) {
-        this.studentService = studentService;
-        this.formFactory = formFactory;
-    }
+//    @Inject
+//    public StudentController(StudentService studentService, FormFactory formFactory) {
+//        this.studentService = studentService;
+//        this.formFactory = formFactory;
+//    }
 
     @Inject
     Database db;
