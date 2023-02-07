@@ -14,3 +14,4 @@ GET     /getStudentById/:id        controllers.StudentController.getStudentById(
 
 POST   /addStudent                    controllers.StudentController.addStudent(request : Request)
 PUT    /updateStudent             controllers.StudentController.updateStudent(request : Request)
+DELETE /deleteStudent/:id         controllers.StudentController.deleteStudent(id: Int)

@@ -132,6 +132,36 @@ public class StudentController extends Controller {
         }
     }
 
+    public Result deleteStudent(int id) {
+        Connection conn = null;
+        try {
+            conn = db.getConnection();
+            String checkSql = "SELECT * FROM student WHERE id=?";
+            PreparedStatement checkStmt = conn.prepareStatement(checkSql);
+            checkStmt.setInt(1, id);
+            ResultSet rs = checkStmt.executeQuery();
+            if (!rs.next()) {
+                return notFound("Data not found with id " + id);
+            }
+            String sql = "DELETE FROM student WHERE id=?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+            return ok("Data deleted successfully");
+        } catch (SQLException e) {
+            return internalServerError("Error deleting data: " + e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+
+            }
+        }
+    }
+
+
 
 
 }
