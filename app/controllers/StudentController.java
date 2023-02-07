@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.api.db.Database;
 import play.data.FormFactory;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import service.StudentService;
 
@@ -71,18 +72,40 @@ public class StudentController extends Controller {
         return ok(result);
     }
 
-    public Result addStudent(JsonNode body) throws SQLException {
-        Connection connection = db.getConnection();
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO student(name,email,address) VALUES (?,?,?)");
-        statement.setString(1, body.get("name").textValue());
-        statement.setString(2, body.get("email").textValue());
-        statement.setString(3, body.get("address").textValue());
-        statement.executeUpdate();
-        return ok();
+    public Result addStudent(Http.Request request) {
+        JsonNode json = request.body().asJson();
+        int id = json.get("id").asInt();
+        String name = json.get("name").asText();
+        String email = json.get("email").asText();
+        String address = json.get("address").asText();
+
+        Connection conn = null;
+        try {
+            conn = db.getConnection();
+            String sql = "INSERT INTO student (id, name, email, address) VALUES (?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.setString(2, name);
+            stmt.setString(3, email);
+            stmt.setString(4, address);
+            stmt.executeUpdate();
+            return ok("Data inserted successfully");
+        } catch (SQLException e) {
+            return internalServerError("Error inserting data: " + e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+
+            }
+        }
     }
 //    public Result addStudent(Http.Request request){
 //        Form<Student> form = formFactory.form(Student.class).bindFromRequest(request);
-//        return ok(studentService.addStudent(form.get()).toString());
+//        return ok(studentService.
+//        addStudent(form.get()).toString());
 //    }
 
     //    @Autowired

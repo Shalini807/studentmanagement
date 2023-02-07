@@ -17,4 +17,6 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 #GET    /connection                controllers.StudentController.connection()
 GET     /getStudent                controllers.StudentController.getStudent()
 GET     /getStudentById/:id        controllers.StudentController.getStudentById(id: Int)
-POST    /addStudent                controllers.StudentController.addStudent(body: JsonNode)
+#POST    /addStudent                controllers.StudentController.addStudent(body: JsonNode)
+
+POST   /addStudent                    controllers.StudentController.addStudent(request : Request)
